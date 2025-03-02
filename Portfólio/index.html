@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Portfolio</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Adicionando EmailJS para envio de emails -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+         
+            emailjs.init('ni5VpoGX2Gyl2ihFb'); //
+        })();
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-attachment: fixed;
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            background-image: url('wpp.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.9; 
+            z-index: -1; 
+        }
+        
+        header {
+            background-image: linear-gradient(135deg, #000000, #0080ff);
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0 0 0;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            background-color: #e0e0e0; 
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        nav {
+            background-color: rgba(0, 0, 0, 0.8); /* Fundo semi-transparente */
+            padding: 1rem;
+            border-radius: 50px; /* Bordas arredondadas */
+            position: static; /* Posição estática por padrão */
+            z-index: 100; /* Garante que fique acima de outros elementos */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra para destacar */
+            width: 80%; /* Largura baseada no container */
+            margin: 0 auto; /* Centraliza o menu */
+            transition: all 0.3s ease; /* Transição suave para efeitos */
+            opacity: 1;
+        }
+        
+        /* Classe para quando o menu deve ser flutuante */
+        nav.floating {
+            position: fixed; /* Posição fixa na tela quando ativado */
+            top: 20px; /* Posição fixa no topo (não começa fora da tela) */
+            left: 50%; /* Centralizado horizontalmente */
+            transform: translateX(-50%); /* Centraliza perfeitamente */
+            width: auto; /* Largura automática baseada no conteúdo */
+        }
+        
+        /* p */
+        .nav-placeholder {
+            display: none;
+            height: 0;
+            transition: height 0.3s ease;
+        }
+        
+        /* p */
+        .nav-placeholder.active {
+            display: block;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav ul li {
+            margin: 0 1rem;
+        }
+        
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+        
+        nav ul li a:hover {
+            color: #3498db;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsividade para telas menores */
+        @media (max-width: 768px) {
+            nav, nav.floating {
+                width: 90%;
+                border-radius: 15px;
+                padding: 0.8rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap; /* Permite quebra de linha em telas menores */
+            }
+            
+            nav ul li {
+                margin: 0.3rem;
+            }
+            
+            nav ul li a {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        section {
+            padding: 3rem 0;
+        }
+        
+        section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            position: relative;
+        }
+        
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: #3498db;
+        }
+
+        #sobre p {
+            color: #ffffff; 
+        }
+        
+        /* Estilo para as habilidades com ícones */
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            justify-content: center;
+        }
+        
+        .skill {
+            background-color: #000000;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .skill:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        
+        .skill-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+        
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project {
+            background-color: #000000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .project:hover {
+            transform: translateY(-5px);
+        }
+        
+        .project-img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain; 
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .project-content {
+            padding: 1.5rem;
+            color: #ffffff;
+        }
+        
+        .project h3 {
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: #ffffff;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background-color 0.3s, transform 0.3s;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #000000;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #34749c;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+        
+        footer {
+            background-image: linear-gradient(135deg, #0080ff, #000000);
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .social-links {
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: #fff;
+            margin: 0 1rem;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s, transform 0.3s;
+            display: inline-block;
+        }
+        
+        .social-links a:hover {
+            color: #e0e0e0;
+            transform: scale(1.2);
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+            
+            .skills {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+        
+        /* Estilo para o modal/lightbox do slideshow */
+        .slideshow-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .slideshow-content {
+            position: relative;
+            margin: auto;
+            padding: 0;
+            width: 80%;
+            max-width: 1000px;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .slideshow-slides {
+            display: none;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+        
+        .slideshow-slides img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+        
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -50px;
+            color: white;
+            font-weight: bold;
+            font-size: 30px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+        
+        .prev {
+            left: 0;
+        }
+        
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        
+        .close {
+            color: white;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .caption {
+            color: #ffffff;
+            padding: 8px 0;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: 10px;
+        }
+        
+        /* Estilos para notificações de sucesso/erro do formulário */
+        .form-status {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            display: none;
+            font-weight: bold;
+        }
+        
+        .success {
+            background-color: rgba(39, 174, 96, 0.2);
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+        
+        .error {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Reorganizando a ordem: primeiro a foto, depois o nome -->
+        <img class="profile-pic" src='profilepic.jpeg' alt="Luan Vitor Goulart">
+        <h1>Luan Vitor Goulart</h1>
+        <p>| Campinas-SP | luan.vitor0102@gmail.com | </p>
+    </header>
+    
+    <nav id="mainNav">
+        <ul>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#habilidades">Habilidades</a></li>
+            <li><a href="#projetos">Projetos</a></li>
+            <li><a href="#contato">Contato</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <section id="sobre" class="container">
+            <h2>Sobre Mim</h2>
+            <p>Atualmente estou me formando em Análise e Desenvolvimento de Sistemas, estou no penúltimo semestre. Cursei 4 dos 5 períodos de Gestão de TI e tenho como meta focar em análise de dados.</p>
+            <p>Estou sempre em busca de novas oportunidades e experiência para crescer e aprender ainda mais.</p> 
+            <p>No momento estou estudando Machine Learning e Data.</p>
+            <p>Ainda não possuo experiência na área de maneira formal, apenas com projetos pessoais como alguns que apresento logo abaixo e outras mais informais também como ajudar colegas e amigos em seus projetos. Busco oportunidades como Estagiário ou Analista de Dados Júnior.</p>
+        </section>
+        
+        <section id="habilidades" class="container">
+            <h2>Minhas Habilidades</h2>
+            <div class="skills">
+                <div class="skill">
+                    <div class="skill-icon"><i class="fab fa-python"></i></div>
+                    <div class="skill-name">Python</div>
+                </div>
+                <div class="skill">
+                    <div class="skill-icon"><i class="fas fa-file-excel"></i></div>
+                    <div class="skill-name">Excel</div>
+                </div>
+                <div class="skill">
+                    <div class="skill-icon"><i class="fas fa-database"></i></div>
+                    <div class="skill-name">MySQL</div>
+                </div>
+                <div class="skill">
+                    <div class="skill-icon"><i class="fas fa-window-restore"></i></div>
+                    <div class="skill-name">CustomTkinter</div>
+                </div>
+                <div class="skill">
+                    <div class="skill-icon"><i class="fas fa-desktop"></i></div>
+                    <div class="skill-name">PyQt6</div>
+                </div>
+                <div class="skill">
+                    <div class="skill-icon"><i class="fas fa-language"></i></div>
+                    <div class="skill-name">Inglês</div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="projetos" class="container">
+            <h2>Meus Projetos</h2>
+            <div class="projects">
+                <div class="project">
+                    <img src="dante_icon-01.ico" alt="Dante Icon" style="display: block; margin: 0 auto; max-width: 250px; max-height: 250px; padding: 20px 0;">
+                    <div class="project-content">
+                        <h3>Projeto Dante</h3>
+                        <p>Criei o Dante como um projeto de aplicativo baseado em um editor de PDFs, queria testar meu conhecimento com Python e fazer alguma coisa útil para eu mesmo utilizar.</p> 
+                        <p>A interface consiste na biblioteca CustomTkinter que é por si só bem intuitiva e permite qualquer um usar com facilidade.</p>
+                        <p>Nesse projeto eu quis aplicar tudo o que pude e aprender mais sobre o poder do Python e suas ferramentas.</p>
+                        <a href="#" class="btn">Ver Projeto</a>
+                    </div>
+                </div>
+                
+                <div class="project">
+                    <img src="foto2.webp" alt="Construindo" style="display: block; margin: 0 auto; max-width: 300px; max-height: 300px; padding: 20px 0;">
+                    <div class="project-content">
+                        <h3>Projeto Em Andamento</h3>
+                        <p>Criando...🛠️ </p>
+                        <a href="#" class="btn" onclick="alert('Projeto em desenvolvimento. Aguarde!'); return false;">Em breve</a>
+                    </div>
+                </div>
+                
+                <div class="project">
+                    <img src="foto2.webp" alt="Construindo" style="display: block; margin: 0 auto; max-width: 300px; max-height: 300px; padding: 20px 0;">
+                    <div class="project-content">
+                        <h3>Futuro Projeto</h3>
+                        <p>No Papel... </p>
+                        <a href="#" class="btn" onclick="alert('Projeto em desenvolvimento. Aguarde!'); return false;">Em breve</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contato" class="container">
+            <h2>Entre em Contato</h2>
+            <div class="contact-form">
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Nome</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Seu Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Assunto</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensagem</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn" id="submit-btn">Enviar Mensagem</button>
+                    
+                    <!-- Mensagens de status do formulário -->
+                    <div id="form-status-success" class="form-status success">Mensagem enviada com sucesso! Entrarei em contato em breve.</div>
+                    <div id="form-status-error" class="form-status error">Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente.</div>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/luan-vitor-goulart-120608349" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/N3wATIT" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- No final do body, antes do fechamento da tag -->
+    <div id="slideshowModal" class="slideshow-modal">
+        <span class="close">&times;</span>
+        
+        <div class="slideshow-content">
+            <!-- Slides do primeiro projeto -->
+            <div class="slideshow-slides" data-project="projeto1">
+                <img src="PRT1.png" alt="Imagem 1 do Projeto 1">
+            </div>
+            <div class="slideshow-slides" data-project="projeto1">
+                <img src="PRT1.2.png" alt="Imagem 2 do Projeto 1">
+            </div>
+            <div class="slideshow-slides" data-project="projeto1">
+                <img src="PRT1.3.png" alt="Imagem 3 do Projeto 1">
+            </div>
+            
+            <!-- Slides do segundo projeto -->
+            <div class="slideshow-slides" data-project="projeto2">
+                <img src="imagem1_projeto2.jpg" alt="Imagem 1 do Projeto 2">
+                <div class="caption">Descrição da imagem 1</div>
+            </div>
+            <div class="slideshow-slides" data-project="projeto2">
+                <img src="imagem2_projeto2.jpg" alt="Imagem 2 do Projeto 2">
+                <div class="caption">Descrição da imagem 2</div>
+            </div>
+            
+            <!-- Slides do terceiro projeto -->
+            <div class="slideshow-slides" data-project="projeto3">
+                <img src="imagem1_projeto3.jpg" alt="Imagem 1 do Projeto 3">
+                <div class="caption">Descrição da imagem 1</div>
+            </div>
+            <div class="slideshow-slides" data-project="projeto3">
+                <img src="imagem2_projeto3.jpg" alt="Imagem 2 do Projeto 3">
+                <div class="caption">Descrição da imagem 2</div>
+            </div>
+            
+            <!-- Botões de navegação -->
+            <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+            <a class="next" onclick="changeSlide(1)">&#10095;</a>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis para controlar o slideshow
+        let slideIndex = 1;
+        let currentProject = '';
+        const modal = document.getElementById("slideshowModal");
+        
+        // Modificar os links "Ver Projeto" para abrir o slideshow
+        document.addEventListener('DOMContentLoaded', function() {
+            const projectButtons = document.querySelectorAll('.project .btn');
+            
+            // Primeiro projeto
+            if (projectButtons[0]) {
+                projectButtons[0].setAttribute('data-project', 'projeto1');
+                projectButtons[0].addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openSlideshow('projeto1');
+                });
+            }
+            
+            // Segundo projeto
+            if (projectButtons[1]) {
+                projectButtons[1].setAttribute('data-project', 'projeto2');
+                projectButtons[1].addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                });
+            }
+            
+            // Terceiro projeto
+            if (projectButtons[2]) {
+                projectButtons[2].setAttribute('data-project', 'projeto3');
+                projectButtons[2].addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                });
+            }
+            
+            // Fechar o slideshow quando clicar no X
+            const closeBtn = document.querySelector('.close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeSlideshow);
+            }
+            
+            // Fechar o slideshow quando clicar fora da imagem
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeSlideshow();
+                }
+            });
+            
+            // Configurar o envio do formulário de contato
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Desabilitar o botão enquanto está enviando
+                    document.getElementById('submit-btn').disabled = true;
+                    document.getElementById('submit-btn').textContent = "Enviando...";
+                    
+                    // Esconder mensagens de status
+                    document.getElementById('form-status-success').style.display = 'none';
+                    document.getElementById('form-status-error').style.display = 'none';
+                    
+                    // Preparar os parâmetros do email
+                    const templateParams = {
+                        from_name: document.getElementById('name').value,
+                        from_email: document.getElementById('email').value,
+                        subject: document.getElementById('subject').value,
+                        message: document.getElementById('message').value,
+                        to_email: 'luan.vitor0102@gmail.com' // Seu email que receberá a mensagem
+                    };
+                    
+                    // Enviar o email usando EmailJS
+                    emailjs.send('service_3ts8695', 'template_masdc4b', templateParams)
+                        .then(function(response) {
+                            console.log('SUCESSO!', response.status, response.text);
+                            // Mostrar mensagem de sucesso
+                            document.getElementById('form-status-success').style.display = 'block';
+                            // Limpar o formulário
+                            contactForm.reset();
+                        }, function(error) {
+                            console.log('ERRO:', error);
+                            // Mostrar mensagem de erro
+                            document.getElementById('form-status-error').style.display = 'block';
+                        })
+                        .finally(function() {
+                            // Reativar o botão
+                            document.getElementById('submit-btn').disabled = false;
+                            document.getElementById('submit-btn').textContent = "Enviar Mensagem";
+                        });
+                });
+            }
+        });
+        
+        // Função para abrir o slideshow de um projeto específico
+        function openSlideshow(projectId) {
+            currentProject = projectId;
+            modal.style.display = "block";
+            showSlides(1);
+        }
+        
+        // Função para fechar o slideshow
+        function closeSlideshow() {
+            modal.style.display = "none";
+        }
+        
+        // Função para mudar de slide
+        function changeSlide(n) {
+            showSlides(slideIndex += n);
+        }
+        
+        // Função para exibir os slides
+        function showSlides(n) {
+            const slides = document.querySelectorAll(`.slideshow-slides[data-project="${currentProject}"]`);
+            
+            if (!slides.length) return;
+            
+            // Reset do índice se passar dos limites
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            
+            // Esconder todos os slides
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            
+            // Mostrar o slide atual
+            slides[slideIndex-1].style.display = "block";
+        }
+        
+        // Código para lidar com o menu flutuante em função do scroll
+        const nav = document.getElementById('mainNav');
+        const navPlaceholder = document.createElement('div');
+        navPlaceholder.className = 'nav-placeholder';
+        nav.parentNode.insertBefore(navPlaceholder, nav);
+        
+        // Inicializa variáveis importantes
+        let navHeight;
+        let navInitialOffset;
+        
+        // Função para atualizar dimensões importantes
+        function updateDimensions() {
+            navHeight = nav.offsetHeight;
+            navInitialOffset = nav.offsetTop;
+            
+            // Atualiza a altura do placeholder se estiver ativo
+            if (navPlaceholder.classList.contains('active')) {
+                navPlaceholder.style.height = navHeight + 'px';
+            }
+        }
+        
+        // Inicializa as dimensões quando o documento estiver pronto
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDimensions();
+        });
+        
+        // Função para verificar a posição do scroll e ajustar o menu
+        function checkScroll() {
+            if (window.pageYOffset > navInitialOffset) {
+                // Se já não estiver flutuante, adiciona o placeholder
+                if (!nav.classList.contains('floating')) {
+                    // Certifica-se de que as dimensões estão atualizadas
+                    updateDimensions();
+                    
+                    // Adiciona o placeholder para evitar o "pulo"
+                    navPlaceholder.style.height = navHeight + 'px';
+                    navPlaceholder.classList.add('active');
+                    
+                    // Torna o menu flutuante
+                    nav.classList.add('floating');
+                }
+            } else {
+                // Remove a classe flutuante
+                nav.classList.remove('floating');
+                
+                // Remove o placeholder
+                navPlaceholder.classList.remove('active');
+                navPlaceholder.style.height = '0';
+            }
+        }
+        
+        // Escuta o evento de scroll com throttling para melhor performance
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            if (!scrollTimeout) {
+                scrollTimeout = setTimeout(function() {
+                    checkScroll();
+                    scrollTimeout = null;
+                }, 10);
+            }
+        });
+        
+        // Também verificamos no carregamento da página e no redimensionamento
+        window.addEventListener('load', function() {
+            updateDimensions();
+            checkScroll();
+        });
+        
+        window.addEventListener('resize', function() {
+            updateDimensions();
+            checkScroll();
+        });
+    </script>
+</body>
+</html>
